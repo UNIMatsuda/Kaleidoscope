@@ -34,4 +34,6 @@ class ofApp : public ofBaseApp{
         ofxUIVec3f kScale;
         ofxUIVec3f screenSize;
         bool viewRawCam;
+        float m_fRotate;
+        ofxUIVec3f m_Trans;
 };

@@ -113,36 +113,38 @@ class Kaleidoscope
 		u3 = fmax(0, centerPoint.x + fmin(vw2 + (sin(count/cc+ PI *2.f/3.f*2.f)*radius[0]), maxWidth-centerPoint.x));
 		v3 = fmax(0, centerPoint.y + fmin(vh2 + (cos(count/cc+ PI *2.f/3.f*2.f)*radius[0]), maxHeight-centerPoint.y));
 		
-		for(iy=0;iy<(gDrawHeight/ksy)+1;iy++) {
+        int numI = 2;
+		for(iy=0;iy<(gDrawHeight/ksy)+1;) {
 			
-			ix=0;
-			
-			textureImg.bind();
-			
-			glBegin(GL_TRIANGLE_STRIP);
-			//textureImg.blend(textureImg,0,0,640,480,0,0,640,480,ADD);
-			glTexCoord2f(u2, v2);
-			glVertex2f(ix * ksx- ksx/2, (iy+1)*ksy);
-			for(ix = 0 ; ix < (gDrawWidth / ksx) + 1 ; ix++) {
-				glTexCoord2f(u1, v1);
-				glVertex2f(ix * ksx, iy * ksy);
-				glTexCoord2f(u3, v3);
-				glVertex2f((ix+1)* ksx- ksx/2, (iy+1)*ksy);
-				ix++;
-				glTexCoord2f(u2,v2);
-				glVertex2f(ix * ksx, iy * ksy);
-				glTexCoord2f(u1, v1);
-				glVertex2f((ix+1)* ksx- ksx/2, (iy+1)*ksy);
-				
-				ix++;
-				glTexCoord2f(u3,v3);
-				glVertex2f(ix * ksx, iy * ksy);
-				glTexCoord2f(u2, v2);
-				glVertex2f((ix+1)* ksx- ksx/2, (iy+1)*ksy);
-			}
-			glEnd();
-			
-			textureImg.unbind();
+            for(int i = 0; i < numI; i++, iy++){
+                textureImg.bind();
+                
+                glBegin(GL_TRIANGLE_STRIP);
+                //textureImg.blend(textureImg,0,0,640,480,0,0,640,480,ADD);
+                glTexCoord2f(u2, v2);
+                glVertex2f(ix * ksx- ksx/2, (iy+1)*ksy);
+                for(ix = 0 ; ix < (gDrawWidth / ksx) + 1 ; ix++) {
+                    glTexCoord2f(u1, v1);
+                    glVertex2f(ix * ksx, (iy + i) * ksy);
+                    glTexCoord2f(u3, v3);
+                    glVertex2f((ix+1)* ksx- ksx/2, (iy+numI-i-1)*ksy);
+                    ix++;
+                    glTexCoord2f(u2,v2);
+                    glVertex2f(ix * ksx, (iy + i) * ksy);
+                    glTexCoord2f(u1, v1);
+                    glVertex2f((ix+1)* ksx- ksx/2, (iy+numI-i-1)*ksy);
+                    
+                    ix++;
+                    glTexCoord2f(u3,v3);
+                    glVertex2f(ix * ksx, (iy + i) * ksy);
+                    glTexCoord2f(u2, v2);
+                    glVertex2f((ix+1)* ksx- ksx/2, (iy+numI-i-1)*ksy);
+                }
+                glEnd();
+                
+                textureImg.unbind();
+            }
+            /*
 			textureImg.bind();
 			
 			iy++;
@@ -171,7 +173,7 @@ class Kaleidoscope
 			glEnd();
 			
 			
-			textureImg.unbind();
+			textureImg.unbind();*/
 		}
     }
 	

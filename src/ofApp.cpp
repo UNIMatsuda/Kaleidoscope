@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    bool USBviaETH = true;
+    bool USBviaETH = false;
     camWidth 		= USBviaETH ? 320 : 1920;//1920;//640;	// try to grab at this size.
 	camHeight 		= USBviaETH ? 240 : 1080;//1080;//480;
 	
@@ -50,10 +50,12 @@ void ofApp::setup(){
     gui->add2DPad("centerPoint", ofxUIVec2f(0, 1000), ofxUIVec2f(0, 1000), &kCenter, 100, 100);
     kScale.x = kaleidoscope.ksx;
     kScale.y = kaleidoscope.ksy;
-    gui->add2DPad("scale", ofxUIVec2f(0, 1000), ofxUIVec2f(0, 1000), &kScale, 100, 100);
+    gui->add2DPad("scale", ofxUIVec2f(350, 600), ofxUIVec2f(350, 600), &kScale, 250, 250);
     gui->add2DPad("screenDims", ofxUIVec2f(0, 2000), ofxUIVec2f(0, 2000), &screenSize, 100, 100);
     gui->addToggle("drawDebug", &kaleidoscope.bDrawDebug);
     //TODO: add ddl for cameras and resolutions
+    gui->add2DPad("translate", ofxUIVec2f(-3000, 0), ofxUIVec2f(-3000, 0), &m_Trans, 300, 300);
+    gui->addSlider("rotation", 0, 90, &m_fRotate, 300, 20);
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
     gui->loadSettings("settings.xml");
@@ -71,11 +73,15 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofPushMatrix();
+    ofRotate(m_fRotate);
+    ofTranslate(m_Trans.x, m_Trans.y);
     if (viewRawCam){
         vidGrabber.draw(0, 0, 1000, 1000);
     } else {
-        kaleidoscope.render(screenSize.x, screenSize.y, vidGrabber.getTextureReference());
+        kaleidoscope.render(screenSize.x*2, screenSize.y*2, vidGrabber.getTextureReference());
     }
+    ofPopMatrix();
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e)
