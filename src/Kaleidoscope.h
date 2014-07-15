@@ -84,7 +84,6 @@ class Kaleidoscope
 	}
     
     void render(float _gDrawWidth, float _gDrawHeight, ofTexture& textureImg){
-		
 		gDrawWidth = _gDrawWidth;
 		gDrawHeight = _gDrawHeight;
         
@@ -102,7 +101,13 @@ class Kaleidoscope
 		float vw2 = vw / 2.0f;
 		float vh2 = vh / 2.0f;
 		float mmm = 100000.0;
-		
+        
+        //change direction of 'spinStep' when hitting maximum float value in 'count'
+        //to keep kaleidoscope rotating
+        if (count<-4194303. || count>4194303.) {
+            spinStep=-spinStep;
+        }
+        
 		//  vw2 = (int) ((float) (millis() % mmm) * (float) vw / mmm);
 		int maxWidth = 1280;//320;
         int maxHeight = 1024;//240;
@@ -112,8 +117,9 @@ class Kaleidoscope
 		v2 = fmax(0, centerPoint.y + fmin(vh2 + (cos(count/cc+ PI *2.f/3.f)*radius[0]), maxHeight-centerPoint.y));
 		u3 = fmax(0, centerPoint.x + fmin(vw2 + (sin(count/cc+ PI *2.f/3.f*2.f)*radius[0]), maxWidth-centerPoint.x));
 		v3 = fmax(0, centerPoint.y + fmin(vh2 + (cos(count/cc+ PI *2.f/3.f*2.f)*radius[0]), maxHeight-centerPoint.y));
-		
+//		cout<<u1<<" "<<v1<<" "<<u2<<" "<<v2<<" "<<u3<<" "<<v3<<endl;
         int numI = 2;
+        
 		for(iy=0;iy<(gDrawHeight/ksy)+1;) {
 			
             for(int i = 0; i < numI; i++, iy++){
