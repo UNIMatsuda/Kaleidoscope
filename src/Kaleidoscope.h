@@ -23,6 +23,11 @@ class Kaleidoscope
 	float  u4, v4, u5, v5, u6, v6;
 	float vw, vh;
 	
+		
+	int Img2Width;
+    
+	//texture coords
+	
 	//texture coords
 	ofPoint texCoord1;
 	ofPoint texCoord2;
@@ -387,7 +392,10 @@ class Kaleidoscope
 		ofEndShape(true);
 		ofPopStyle();
 		
-		textureImg2.draw(textureImg.width,0);
+//		textureImg2.draw(textureImg.width,0);
+	        Img2Width = textureImg2.getWidth();
+	        textureImg2.draw(Img2Width,0);
+		
 		ofPushStyle();
 		ofNoFill();
 		ofBeginShape();
